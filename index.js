@@ -24,14 +24,12 @@ app.get('/math/add', (request, response) => {
    }
    const operationsObj = QueryObj.ObjStrToNum(request.query);
    const keys = Object.keys(operationsObj);
-   console.log(keys);
    let objResult = 0;
-   for (let i = 0; i < keys.length ; i++){
-       if (i === keys.length -1){
-           continue;
+   for (let i = 0 ; i < keys.length; i+=2){
+       if (objResult > 0){
+          objResult = math.add(operationsObj[keys[i]],objResult);
        }
-    objResult = math.add(operationsObj[keys[i]],operationsObj[keys[i+1]]);
-    console.log(objResult);
+       else objResult = math.add(operationsObj[keys[i]],operationsObj[keys[i+1]]);
    }
     response.send({
         input: QueryObj.inputObj(request.query),
@@ -52,12 +50,13 @@ app.get('/math/add', (request, response) => {
    const keys = Object.keys(operationsObj);
    console.log(keys);
    let objResult = 0;
-   for (let i = 0; i < keys.length ; i++){
-       if (i === keys.length -1){
-           continue;
-       }
-    objResult = math.multiply(operationsObj[keys[i]],operationsObj[keys[i+1]]);
-   } // Operation
+   for (let i = 0 ; i < keys.length; i+=2){
+    if (objResult > 0){
+       objResult = math.multiply(operationsObj[keys[i]],objResult);
+    }
+    else objResult = math.multiply(operationsObj[keys[i]],operationsObj[keys[i+1]]);
+}
+    // Operation
     response.send({
         input: QueryObj.inputObj(request.query),
         productString: QueryObj.productString(request.query),
